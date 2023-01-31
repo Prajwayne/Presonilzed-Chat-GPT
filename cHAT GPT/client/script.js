@@ -41,3 +41,15 @@ function typeText(element, text){
     }
   }, 20)
 }
+// Funtion to generate unique Id to every single meesage to map over them 
+function generateUniqueID() {
+  // we can generate Id by current Date and Time 
+  const timestamp = Date.now();
+  // we can create eben more random by cretaing random number 
+  const randomNumber = Math.random();
+  // to Push futher we can create a hexadecimal string
+  const hexadecimalString = randomNumber.toString(16);
+
+  return `id-${timestamp} - ${hexadecimalString}`;
+
+}
