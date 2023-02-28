@@ -53,3 +53,58 @@ function generateUniqueID() {
   return `id-${timestamp} - ${hexadecimalString}`;
 
 }
+//Chat stipes retursn template strings
+function chatStripe(isAi, value, uniqueId) {
+  return (
+      `
+      <div class="wrapper ${isAi && 'ai'}">
+          <div class="chat">
+              <div class="profile">
+                  <img 
+                    src=${isAi ? bot : user} 
+                    alt="${isAi ? 'bot' : 'user'}"  
+                  />
+              </div>
+              <div class="message" id=${uniqueId}>${value}</div>
+          </div>
+      </div>
+  `
+  )
+}
+//trigger to generate AI generated response 
+// its async function and going to take an event 
+const handleSubmit = async (e) =>{
+  // do not reload the browser by default
+  e.preventDefault();
+
+  //get data 
+
+  const data = new FormData(form); //form element from html 
+
+  //genertae users chats stripe 
+  chatConatiner.innerHTML += chatStripe(false,data.get('promt')); //false because its not AI its user
+
+  form.reset();
+
+
+  //bot chatstripe 
+  const uniqueId = generateUniqueID();
+  chatConatiner.innerHTML += chatStripe(true," ", uniqueId);
+// keep scrolling down 
+  chatConatiner.scrollTop = chatConatiner.scrollHeight;
+
+//fecth newly created div 
+  const messageDiv = document.getElementById(uniqueId);
+  
+
+   loader(messageDiv);
+
+}
+ // handel submit 
+ form.addEventListener('submit',handleSubmit);
+ //press enter key 
+ form.addEventListener('keyup',(e) => {
+  if(e.keyCode === 13){
+    handleSubmit(e);
+  }
+ })
